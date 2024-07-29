@@ -120,10 +120,8 @@ def insert_added_problems_batch(url: str, connection_string: str):
     conn = psycopg.connect(connection_string)
     cur = conn.cursor()
     total_problems_saved = get_total_problems_metadata(cur)
-    print(total_problems_saved)
     # get the total number of problems leetcode has published
     total_problems_published = get_num_total_problems(url)
-    print(total_problems_published)
     # compare and check if they match
     # if they don't, fetch the additional problems using the graphql api
     if total_problems_saved != total_problems_published:
@@ -135,5 +133,6 @@ def insert_added_problems_batch(url: str, connection_string: str):
             set_total_problems_metadata(cur, conn, total_problems_saved, total_problems_published)
         else:
             print("An error has occurred during insertion")
-
+    else:
+        print("Database already up to date with leetcode")
     # update the total problems if inserted successfully
